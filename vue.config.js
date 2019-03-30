@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '<veganfriendly-menus>'
+  publicPath: 'veganfriendly-menus'
  } 

@@ -1,6 +1,6 @@
 <template>
   <section class="column card" v-if="rest && itemsForDisplay">
-    <header class="panel-heading"><span>שם המסעדה: {{rest.name}}</span> <button v-if="isEditMode " @click="saveCanges()">עדכן</button></header>
+    <header class="panel-heading"><span>שם המסעדה: {{rest.name}} </span> <button v-if="isEditMode " @click="saveCanges()">עדכן</button></header>
     <div v-if="!isEditMode">
       <menu-section
         v-for="section in itemsForDisplay"

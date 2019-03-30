@@ -10,7 +10,7 @@
       </p>
     </div>
     <a class="panel-block rest-wrapper" v-for="rest in restsToDisplay" :key="rest.id" @click="openMenu(rest.id)">
-      {{rest.name}}
+      {{rest.name}} ({{rest.num}})
       <span class="panel-icon edit-icon" @click.stop="editMenu(rest.id)">ערוך</span>
     </a>
   </section>

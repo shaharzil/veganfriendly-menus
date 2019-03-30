@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     restId() {
-      return +this.$route.params.id;
+      return this.$route.params.id;
     },
     isEditMode() {
       return !!this.$route.params.edit;

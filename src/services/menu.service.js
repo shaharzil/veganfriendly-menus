@@ -8,66 +8,47 @@ const loginCreds = {
     "password": 'Fri3ndlyv3gaN'
 }
 let gId = 314
-
-const rests = [
-    { id: 1, name: "Cozy Vegan Eatery", num: 3 },
-    { id: 2, name: 'good pizza place', num: 5 },
-    { id: 3, name: 'good burger place', num: 5 },
-    { id: 4, name: 'rainbow', num: 4 },
-    { id: 5, name: 'shuffle', num: 2 },
-    { id: 6, name: 'noodels place', num: 0 },
-    { id: 7, name: 'i love food', num: 1 },
-]
-
-var menuItems = [
-    { id: 1, restaurant_id: 1, section_id: 3, name: "Vegan Pizza", description: "Pizza with Vegan Cheese", price: 75 },
-    { id: 2, restaurant_id: 1, section_id: 1, name: "fries", description: "good yumi fries", price: 18 },
-    { id: 3, restaurant_id: 4, section_id: 3, name: "bitburger", description: "burger from mushrooms, soy and bit", price: 38 },
-    { id: 4, restaurant_id: 4, section_id: 3, name: "rainburger", description: "burger from mushrooms and soy", price: 38 },
-    { id: 5, restaurant_id: 4, section_id: 2, name: "ice cream", description: "Pizza with Vegan Cheese", price: 75 },
-    { id: 6, restaurant_id: 6, section_id: 3, name: "Vegan Pizza", description: "Pizza with Vegan Cheese", price: 75 },
-]
-
-const menuSections = [
-    { id: 1, title: "Appetizers", position: 1 },
-    { id: 2, title: "Desserts", position: 5 },
-    { id: 3, title: "Main Courses", position: 3 },
-]
-
 function makeId() {
     return gId++
 }
 function getRests() {
-    // return axios.get(`${baseUrl}/restaurants/list?hash="${hash}"`)
-    //     .then(({data}) => {
-    //         console.log(data)
-    //     })
-    return Promise.resolve(rests)
+    return axios.get(`${baseUrl}/admin/restaurants/list?hash=${hash}`)
+        .then(({data}) => {
+            return data
+        })
+        .catch(err => console.log(err))
 }
 
 function login() {
     return axios.post(`${baseUrl}/admin/login`, loginCreds)
         .then(({ data }) => {
-            hash = data
+            hash = data.hash
         })
         .catch(err => {
         })
 }
 
 function getRestItems(restId) {
-    return Promise.resolve(menuItems.filter(item => {
-        return item.restaurant_id === restId
-    }).slice())
+    return axios.get(`${baseUrl}/admin/menu_items/list/${restId}?hash=${hash}`)
+    .then(({data}) => {
+        return data
+    })
 }
 
 function getSections() {
-    return Promise.resolve(menuSections.sort((a, b) => a.position - b.position))
+    return axios.get(`${baseUrl}/admin/menu_sections/list?hash=${hash}`)
+    .then(({data}) => {
+        return data.sort((a, b) => a.position - b.position)
+    })
+
 }
 
 function saveCanges(restId, items) {
-    // return axios.post(`${baseUrl}/menu_items/set`, { restaurant_id: restId, menu_items: items })
-    //     .then(({ data }) => data)
-    return Promise.resolve('succses')
+    return axios.post(`${baseUrl}/admin/menu_items/set?hash=${hash}`, { restaurant_id: +restId, menu_items: JSON.stringify(items) })
+        .then(({ data }) => {
+            console.log(data)
+            return data
+        })
 
 }
 

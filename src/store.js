@@ -80,6 +80,7 @@ export default new Vuex.Store({
     async saveCanges({ state }, { restId }) {
       try {
         await menuService.saveCanges(restId, state.restItems)
+        console.log(state.restItems)
       } catch (error) {
         console.log(error)
       }
@@ -99,6 +100,7 @@ export default new Vuex.Store({
     },
     addItem({ commit, state }, { sectionId }) {
       const emptyItem = {
+        id: menuService.makeId(),
         section_id: sectionId,
         title: "Item name",
         description: "item description",

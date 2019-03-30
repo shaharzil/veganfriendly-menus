@@ -6,20 +6,23 @@
 </template>
 
 <script>
-import restsPanel from '../components/RestsPanel.component.vue'
+import restsPanel from "../components/RestsPanel.component.vue";
+import menuService from "../services/menu.service";
 
 export default {
-  name: "home",
+  name: "menus-page",
   created() {
-    this.$store.dispatch('loadRests')
-    this.$store.dispatch('loadSections')
+    menuService.login().then(_ => {
+      this.$store.dispatch("loadRests");
+      this.$store.dispatch("loadSections");
+    });
   },
   components: {
     restsPanel
   },
   computed: {
     restaurants() {
-      return this.$store.getters.rests
+      return this.$store.getters.rests;
     }
   }
 };

@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import MenusPgae from './views/Menus.page.vue'
 import Menu  from './components/Menu.component.vue';
+import Reviews from './views/Reviews.page.vue'
+import Images from './views/Images.page.vue'
 
 Vue.use(Router)
 
@@ -9,8 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      component: MenusPgae,
       children: [
         {
           path: 'rest/:id',
@@ -21,6 +22,14 @@ export default new Router({
           component: Menu
         }
       ]
+    },
+    {
+      path: '/reviews',
+      component: Reviews
+    },
+    {
+      path: '/images',
+      component: Images
     }
   ]
 })

@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="title-container">
-      <input class="title" v-model="section.title" list="titles" placeholder="הכנס שם קטגוריה" @change="changeSectionName(section)">
+      <input class="title" v-model="section.title" list="titles" ref="section-title" placeholder="הכנס שם קטגוריה" @change="changeSectionName(section)" @click="clearSectionName()">
       <datalist class="title" id="titles">
         <option v-for="section in sections" :key="section.id" :value="section.title"></option>
       </datalist>
@@ -21,10 +21,10 @@
               <input type="text" v-model="item.name" placeholder="enter item name" @input="editItem(item)">
             </td>
             <td>
-              <textarea type="text" v-model="item.description" placeholder="enter description"></textarea>
+              <textarea type="text" v-model="item.description" placeholder="enter description" @input="editItem(item)"></textarea>
             </td>
             <td>
-              <input type="text" v-model="item.price" placeholder="enter price">
+              <input type="text" v-model="item.price" placeholder="enter price" @input="editItem(item)">
             </td>
             <a class="delete is-medium" @click="deleteItem(item.id)"></a>
           </tr>
@@ -65,6 +65,10 @@ export default {
     },
     changeSectionName(section) {
       this.$store.dispatch({type: 'changeSectionName', section})
+      
+    },
+    clearSectionName() {
+      this.section.title = ''
     }
   },
   computed: {

@@ -12,7 +12,7 @@
         </thead>
         <tbody>
             <tr  v-for="item in section.items" :key="item.id">
-                <td>{{item.name}}</td>
+                <td>{{item.title}}</td>
                 <td>{{item.description}}</td>
                 <td>{{item.price}}</td>
             </tr>

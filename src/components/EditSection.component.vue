@@ -18,7 +18,7 @@
         <tbody>
           <tr v-for="item in sectionItems" :key="item.id">
             <td>
-              <input type="text" v-model="item.name" placeholder="enter item name" @input="editItem(item)">
+              <input type="text" v-model="item.title" placeholder="enter item name" @input="editItem(item)">
             </td>
             <td>
               <textarea type="text" v-model="item.description" placeholder="enter description" @input="editItem(item)"></textarea>

@@ -1,10 +1,7 @@
 <template>
   <section>
     <div class="title-container">
-      <input class="title" v-model="section.title" list="titles" ref="section-title" placeholder="הכנס שם קטגוריה" @change="changeSectionName(section)" @click="clearSectionName()">
-      <datalist class="title" id="titles">
-        <option v-for="section in sections" :key="section.id" :value="section.title"></option>
-      </datalist>
+      <h3 class="title">{{section.title}}</h3>
     </div>
     <div v-if="section.items.length">
       <table class="table is-hoverable is-fullwidth">
@@ -38,7 +35,6 @@
 
 <script>
 import menuService from "../services/menu.service.js";
-import { type } from 'os';
 
 export default {
   props: ["section"],
@@ -63,23 +59,15 @@ export default {
     editItem(item) {
       this.$store.dispatch({type: 'editItem', item})
     },
-    changeSectionName(section) {
-      this.$store.dispatch({type: 'changeSectionName', section})
-      
-    },
-    clearSectionName() {
-      this.section.title = ''
-    }
   },
-  computed: {
-    sections() {
-      return this.$store.getters.sections;
-    }
-  },
+
   watch: {
     section() {
       this.sectionItems = JSON.parse(JSON.stringify(this.section.items));
     }
+  },
+  created() {
+    // console.log(this.section)
   }
 };
 </script>

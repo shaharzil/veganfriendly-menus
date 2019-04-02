@@ -25,9 +25,6 @@ export default new Vuex.Store({
     setItems(state, { restItems }) {
       state.restItems = restItems
     },
-    addSection(state, { newSection }) {
-      state.sections.push(newSection)
-    },
     changeSectionName(state, { sectionIdx, section }) {
       state.sections[sectionIdx].title = section.title
     },
@@ -47,16 +44,20 @@ export default new Vuex.Store({
     itemsForDisplay({ restItems, sections }) {
       // this function should take the items array, make it an object (key = section_id, velue = section object
       // with an array of items in this section) then it changes the object to by an array and sorts them by section position
-      return Object.values(restItems.reduce((acc, item) => {
+      var items = Object.values(restItems.reduce((acc, item) => {
         if (!acc[item.section_id]) {
-          let section = sections.find(({ id }) => id === item.section_id)
+          let section = sections.find(({ id }) => {
+            return id === item.section_id
+          })
           acc[item.section_id] = Object.assign({}, section, { items: [item] })
         } else {
           acc[item.section_id].items.push(item)
         }
         return acc
       }, {}))
-        .sort((a, b) => a.position - b.position)
+        .sort((a, b) => a.position - b.position);
+      return items
+
     },
     sections({ sections }) {
       return sections
@@ -76,23 +77,29 @@ export default new Vuex.Store({
       const items = await menuService.getRestItems(restId)
       const rest = state.rests.find(({ id }) => id === restId)
       commit({ type: 'setRest', rest, items })
+
     },
-    async saveCanges({ state }, { restId }) {
+    async saveCanges({ state }) {
       try {
-        await menuService.saveCanges(restId, state.restItems)
-        console.log(state.restItems)
+        await menuService.saveCanges(state.selectedRest.id, state.restItems)
       } catch (error) {
         console.log(error)
       }
     },
-    addSection({ commit, state, dispatch }) {
-      const newSection = {
-        id: menuService.makeId(),
-        title: '',
-        position: state.sections[state.sections.length - 1].position + 1
+    async addSection({ state, dispatch }, { title }) {
+      let newSection = state.sections.find(section => section.title === title)
+      if (!newSection) {
+        newSection = {
+          title: title,
+          position: parseInt(state.sections[state.sections.length - 1].position) + 1
+        }
+        await menuService.addSection(newSection)
       }
-      commit({ type: 'addSection', newSection })
-      dispatch({ type: 'addItem', sectionId: newSection.id })
+      dispatch({ type: 'loadSections' })
+      let section = state.sections.find(section => {
+        return section.title === title
+      })
+      dispatch({ type: 'addItem', sectionId: section.id })
     },
     deleteItem({ commit, state }, { itemId }) {
       const restItems = state.restItems.filter(({ id }) => id !== itemId)
@@ -102,8 +109,8 @@ export default new Vuex.Store({
       const emptyItem = {
         id: menuService.makeId(),
         section_id: sectionId,
-        title: "Item name",
-        description: "item description",
+        title: "",
+        description: "",
         price: 0
       };
       const restItems = state.restItems.slice()
@@ -121,14 +128,5 @@ export default new Vuex.Store({
       restItems.splice(itemIdx, 1, item)
       commit({ type: 'setItems', restItems })
     },
-    changeSectionName({ commit, state }, { section }) {
-      let sectionIdx = state.sections.findIndex(({ title }) => title === section.title)
-      if (sectionIdx === -1) {
-        sectionIdx = state.sections.findIndex(({ id }) => id === section.id)
-        commit({ type: 'changeSectionName', sectionIdx, section })
-      } else {
-        commit({ type: 'changeSection', sectionIdx, section })
-      }
-    }
   }
 })

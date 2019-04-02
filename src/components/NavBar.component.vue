@@ -1,30 +1,18 @@
 <template>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-end">
-      <router-link  to="/" class="navbar-item">
-        תפריטים
-      </router-link>
-      <router-link  to="/reviews" class="navbar-item">
-        ביקורות
-      </router-link>
-      <router-link  to="/images" class="navbar-item">
-        תמונות
-      </router-link>
-
-
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-end">
+        <router-link to="/" class="navbar-item">תפריטים</router-link>
+        <router-link to="/reviews" class="navbar-item">ביקורות</router-link>
+        <router-link to="/images" class="navbar-item">תמונות</router-link>
+      </div>
     </div>
-
-  </div>
-</nav>
+  </nav>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>

@@ -1,7 +1,7 @@
 <template>
   <section class="columns">
     <restsPanel :restaurants="restaurants"></restsPanel>
-    <router-view></router-view>
+    <router-view v-if="showMenu"></router-view>
   </section>
 </template>
 
@@ -15,7 +15,13 @@ export default {
     menuService.login().then(_ => {
       this.$store.dispatch("loadRests");
       this.$store.dispatch("loadSections");
-    });
+      this.showMenu = true
+    })
+  },
+  data() {
+    return {
+      showMenu: false
+    }
   },
   components: {
     restsPanel

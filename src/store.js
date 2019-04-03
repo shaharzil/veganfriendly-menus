@@ -113,6 +113,7 @@ export default new Vuex.Store({
         description: "",
         price: 0
       };
+      console.log(emptyItem.id)
       const restItems = state.restItems.slice()
       restItems.push(emptyItem)
       commit({ type: 'setItems', restItems })

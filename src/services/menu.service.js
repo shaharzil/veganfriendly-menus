@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { promises } from 'fs';
 
 const baseUrl = 'https://app.vegan-friendly.co.il';
 let hash = '';
@@ -7,7 +6,8 @@ const loginCreds = {
     login: 'admin',
     password: 'Fri3ndlyv3gaN'
 };
-let gId 
+
+let gId = Math.floor(Math.random() * (1500 - 500 + 1)) + 500; 
 
 function makeId() {
     return gId++;
@@ -35,7 +35,6 @@ function getRestItems(restId) {
     return axios
         .get(`${baseUrl}/admin/menu_items/list/${restId}?hash=${hash}`)
         .then(({ data }) => {
-            gId = Math.max(...data.map(({id}) => +id))
             return data;
         });
 }

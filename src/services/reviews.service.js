@@ -65,6 +65,7 @@ function getReviews() {
     return axios
         .get(`${baseUrl}/admin/reviews/pending?hash=${hash}`)
         .then(({ data }) => {
+            console.log(data)
             return data;
         })
         .catch(err => console.log(err));

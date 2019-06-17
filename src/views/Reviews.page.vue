@@ -2,18 +2,19 @@
   <section v-if="reviews.length">
     <section class="column card" v-for="review in reviews" :key="review.id">
       <header class="panel-heading">
-        <span>מזהה: {{458613}}</span>
-        <span>{{review.user.name}}</span>
-        <span>{{review.user.mail}}</span>
+        <span>מזהה: {{review.user_id}}</span>
+        <span>נוצר: {{review.created}}</span>
       </header>
       <div class="card-content">
         <div class="flex space-between">
-          <span class="rest-name">מסעדת {{review.restaurant_name}}</span>
+          <span class="rest-name" v-if="review.restaurant_name">מסעדת {{review.restaurant_name}}</span>
+          <span class="rest-name" v-if="!review.restaurant_name">לא חזר שם מסעדה מהשרת</span>
           <span>
             <i  v-for="index in review.rating" :key="index" class="fa fa-star"></i>
           </span>
         </div>
-        <div class="review-details">{{review.details}}</div>
+        <div class="review-details">{{review.description}}</div>
+        <div class="review-details">דירוג: {{review.rating}}</div>
         <div>
           משתמש זה כתב {{review.user_reviews_num}} תגובות בעבר
           <a>לכל התגובות</a>
@@ -40,18 +41,28 @@ export default {
   },
   created() {
     reviewService.login().then(_ => {
-    reviewService
-      .getReviews()
-      .then(reviews => (this.reviews = reviews))
+this.getReviews()
     })
   },
   methods: {
     deleteReview(reviewId) {
-      reviewService.removeReview(reviewId)
+      reviewService.removeReview(reviewId).then(_ =>{
+        this.getReviews()
+
+      })
     },
     approveReview(reviewId) {
-      reviewService.approveReview(reviewId)
+      reviewService.approveReview(reviewId).then(_ =>{
+        this.getReviews()
+
+      })
+    },
+    getReviews() {
+          reviewService
+      .getReviews()
+      .then(reviews => (this.reviews = reviews))
     }
+    
   }
 };
 </script>

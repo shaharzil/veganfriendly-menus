@@ -20,8 +20,8 @@
         </div>
       </div>
       <footer class="card-footer">
-        <div>מחק</div>
-        <div>אשר</div>
+        <div @click="deleteReview(review.id)">מחק</div>
+        <div @click="approveReview(review.id)">אשר</div>
         <div>אשר משתמש</div>
         <div>חסום משתמש</div>
       </footer>
@@ -39,9 +39,19 @@ export default {
     };
   },
   created() {
+    reviewService.login().then(_ => {
     reviewService
       .getReviews()
       .then(reviews => (this.reviews = reviews))
+    })
+  },
+  methods: {
+    deleteReview(reviewId) {
+      reviewService.removeReview(reviewId)
+    },
+    approveReview(reviewId) {
+      reviewService.approveReview(reviewId)
+    }
   }
 };
 </script>

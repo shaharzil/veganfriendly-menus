@@ -111,7 +111,7 @@ export default new Vuex.Store({
         section_id: sectionId,
         title: "",
         description: "",
-        price: 0
+        price: ''
       };
       console.log(emptyItem.id)
       const restItems = state.restItems.slice()

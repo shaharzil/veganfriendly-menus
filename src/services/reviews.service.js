@@ -1,3 +1,13 @@
+import axios from 'axios';
+
+const baseUrl = 'https://app.vegan-friendly.co.il';
+let hash = '';
+const loginCreds = {
+    login: 'admin',
+    password: 'Fri3ndlyv3gaN'
+};
+
+
 var reviews = [
     {
         id: 7,
@@ -39,14 +49,50 @@ var users = [
     { id: 4, name: 'בריטני ספירס', mail: 'itsbritneybitch@gmail.com' }
 ];
 
+
+function login() {
+    return axios
+        .post(`${baseUrl}/admin/login`, loginCreds)
+        .then(({ data }) => {
+            hash = data.hash;
+        })
+        .catch(err => { });
+}
+
 function getReviews() {
-    return Promise.resolve(reviews.map(review => {review.user = users.find(user => user.id === review.user_id)
-    return review}));
+    // return Promise.resolve(reviews.map(review => {review.user = users.find(user => user.id === review.user_id)
+    // return review}));
+    return axios
+        .get(`${baseUrl}/admin/reviews/pending?hash=${hash}`)
+        .then(({ data }) => {
+            return data;
+        })
+        .catch(err => console.log(err));
 
 }
 
 
+function approveReview(reviewId) {
+    return axios
+    .get(`${baseUrl}/admin/reviews/approve/${reviewId}?hash=${hash}`)
+    .then(({ data }) => {
+        return data;
+    })
+    .catch(err => console.log(err));
+}
+
+function removeReview(reviewId) {
+    return axios
+    .get(`${baseUrl}/admin/reviews/remove/${reviewId}?hash=${hash}`)
+    .then(({ data }) => {
+        return data;
+    })
+    .catch(err => console.log(err));
+}
 
 export default {
-    getReviews
+    getReviews,
+    login,
+    approveReview,
+    removeReview
 };

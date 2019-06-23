@@ -41,7 +41,7 @@ export default {
   },
   created() {
     reviewService.login().then(_ => {
-this.getReviews()
+      this.getReviews()
     })
   },
   methods: {

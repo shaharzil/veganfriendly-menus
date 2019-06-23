@@ -44,8 +44,8 @@ function getReviews() {
                 return review
             })
             data.sort((a,b) => {
-                x = new Date(a.created)
-                y = new Date(b.created)
+                let x = new Date(a.created)
+                let y = new Date(b.created)
                 return y.getTime() - x.getTime()
             })
             return data;

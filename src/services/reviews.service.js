@@ -37,7 +37,7 @@ function getReviews() {
         .get(`${baseUrl}/admin/reviews/pending?hash=${hash}`)
         .then(({ data }) => {
             data = data.map(review => {
-                let restName = rests.find(rest => rest.id === review.branch_id)
+                let restName = rests.find(rest => rest.id === review.restaurant_id)
                 if (restName) {
                     review.restaurant_name = restName.name
                 }
